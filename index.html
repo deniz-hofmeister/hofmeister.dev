@@ -41,5 +41,17 @@ GitHub
 </a>
 </nav>
 </main>
+<script>
+var lo=document.querySelector('video');
+lo.addEventListener('canplaythrough',function(){
+var hi=document.createElement('video');
+hi.autoplay=hi.muted=hi.loop=hi.playsInline=true;
+var s=document.createElement('source');s.src='landing-bg-8s-hq.webm';s.type='video/webm';
+var s2=document.createElement('source');s2.src='landing-bg-8s-hq.mp4';s2.type='video/mp4';
+hi.append(s,s2);
+hi.addEventListener('canplaythrough',function(){hi.currentTime=lo.currentTime;hi.play();lo.replaceWith(hi)},{once:true});
+hi.load();
+},{once:true});
+</script>
 </body>
 </html>

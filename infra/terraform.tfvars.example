@@ -1,0 +1,16 @@
+# Project
+project_name = "hofmeister"
+
+# Region: eu_central, eu_west, us_east, us_west
+region = "eu_central"
+
+# VM size: nano (~$3/mo), micro (~$6/mo), small (~$12/mo), medium (~$24/mo)
+vm_size        = "nano"
+ssh_public_key = "ssh-ed25519 AAAA... your-email@example.com"
+
+# Restrict SSH access (recommended)
+# allowed_ssh_cidrs = ["YOUR_IP/32"]
+
+# DNS + HTTPS
+domain_name = "hofmeister.dev"
+email       = "your-email@example.com"
