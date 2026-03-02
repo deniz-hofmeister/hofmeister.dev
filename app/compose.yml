@@ -1,9 +1,0 @@
-services:
-  hofmeister:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: hofmeister:latest
-    container_name: hofmeister
-    network_mode: host
-    command: ["sleep", "infinity"]
