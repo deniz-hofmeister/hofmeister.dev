@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Install Docker and Nginx
 apt-get update
-apt-get install -y docker.io nginx git certbot python3-certbot-nginx
+apt-get install -y docker.io nginx git certbot python3-certbot-nginx dnsutils curl
 systemctl enable docker
 systemctl start docker
 
@@ -30,9 +30,16 @@ NGINX
 
 systemctl restart nginx
 
-# Wait for DNS propagation then get certificate
-sleep 30
-certbot --nginx -d ${domain_name} -d www.${domain_name} --non-interactive --agree-tos -m ${email} --redirect
+# Wait for DNS to resolve to this instance before requesting certificate
+MY_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+while true; do
+  RESOLVED=$(dig +short ${domain_name} @8.8.8.8 | tail -1)
+  if [ "$RESOLVED" = "$MY_IP" ]; then
+    certbot --nginx -d ${domain_name} -d www.${domain_name} --non-interactive --agree-tos -m ${email} --redirect
+    break
+  fi
+  sleep 30
+done
 
 # Auto-renew cron
 echo "0 3 * * * certbot renew --quiet" | crontab -
